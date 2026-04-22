@@ -1,2 +1,79 @@
-# rlbook
-Exercise solutions for "Reinforcement Learning: An Introduction" by Richard S. Sutton and Andrew G. Barto
+# RL Book Companion
+
+![Book cover of Reinforcement Learning](img/smallbookcover.gif)
+
+This repository contains exercise solutions and experiment notebooks created while studying *Reinforcement Learning: An Introduction (2nd Edition)* by Richard S. Sutton and Andrew G. Barto.
+
+For more information about the book, see the [official book page](http://incompleteideas.net/book/the-book-2nd.html).
+
+## Contents
+
+- Chapter-based exercise solutions
+- Jupyter notebooks for reproducing examples from the book
+- Code for generating selected figures
+
+At the moment, the repository includes material for Chapters 1 and 2, with more chapters to be added over time.
+
+## Directory Structure
+
+```text
+.
+├── ch01/
+│   └── solution.md
+├── ch02/
+│   ├── compose.yaml
+│   ├── figures.ipynb
+│   └── solution.ipynb
+└── img/
+    └── smallbookcover.gif
+```
+
+## Running the Notebooks
+
+This repository is set up to run in a Jupyter Lab environment using the `quay.io/jupyter/datascience-notebook` image.
+
+### 1. Start with Docker Compose
+
+```bash
+cd ch02
+export JUPYTER_TOKEN=rlbook
+docker compose up
+```
+
+The default port is `8888`. If needed, you can override it like this:
+
+```bash
+export JUPYTER_PORT=8899
+export JUPYTER_TOKEN=rlbook
+docker compose up
+```
+
+Then open `http://localhost:8888` in your browser, or use the port you configured, and sign in with the token you set.
+
+## Files
+
+- `ch01/solution.md`: exercise solutions for Chapter 1
+- `ch02/solution.ipynb`: exercise solution notebook for Chapter 2
+- `ch02/figures.ipynb`: experiments and figure reproduction for Chapter 2
+- `ch02/compose.yaml`: Docker Compose configuration for Jupyter Lab
+
+## Development Notes
+
+This repository includes a pre-commit configuration and currently uses the `nbdev_clean` hook. If you edit notebooks, it is a good idea to install the hook before committing.
+
+```bash
+pre-commit install
+```
+
+## License
+
+This repository is licensed under the MIT License for original code, original solution write-ups, and other original material created for this project.
+
+Exercise statements from the book, the book cover image, and any other third-party material are not covered by the MIT License and remain the property of their respective copyright holders.
+
+This project references and studies material from *Reinforcement Learning: An Introduction (2nd Edition)* by Richard S. Sutton and Andrew G. Barto. Problem statements are identified by exercise number and are not reproduced here except, where necessary, in limited and attributed form.
+
+## Notes
+
+- The solutions and implementations are written for personal study.
+- They are not official answers, but notes and experimental results collected during the learning process.
