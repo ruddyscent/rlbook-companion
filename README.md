@@ -18,10 +18,10 @@ At the moment, the repository includes material for Chapters 1 and 2, with more 
 
 ```text
 .
+├── compose.yaml
 ├── ch01/
 │   └── solution.md
 ├── ch02/
-│   ├── compose.yaml
 │   ├── figures.ipynb
 │   └── solution.ipynb
 └── img/
@@ -30,32 +30,34 @@ At the moment, the repository includes material for Chapters 1 and 2, with more 
 
 ## Running the Notebooks
 
-This repository is set up to run in a Jupyter Lab environment using the `quay.io/jupyter/datascience-notebook` image.
+This repository is set up to run with `docker compose` using the `quay.io/jupyter/datascience-notebook` image.
 
-### 1. Start with Docker Compose
+### 1. Start Jupyter Lab
+
+From the repository root, start the notebook container:
 
 ```bash
-cd ch02
-export JUPYTER_TOKEN=rlbook
 docker compose up
 ```
 
-The default port is `8888`. If needed, you can override it like this:
+This publishes Jupyter Lab on `http://localhost:8888` by default. You can override the port and token with environment variables:
 
 ```bash
-export JUPYTER_PORT=8899
-export JUPYTER_TOKEN=rlbook
-docker compose up
+JUPYTER_PORT=8889 JUPYTER_TOKEN=rlbook docker compose up
 ```
 
-Then open `http://localhost:8888` in your browser, or use the port you configured, and sign in with the token you set.
+To stop the environment:
+
+```bash
+docker compose down
+```
 
 ## Files
 
 - `ch01/solution.md`: exercise solutions for Chapter 1
 - `ch02/solution.ipynb`: exercise solution notebook for Chapter 2
 - `ch02/figures.ipynb`: experiments and figure reproduction for Chapter 2
-- `ch02/compose.yaml`: Docker Compose configuration for Jupyter Lab
+- `compose.yaml`: Docker Compose configuration for the notebook environment
 
 ## Development Notes
 
