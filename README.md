@@ -20,10 +20,10 @@ At the moment, the repository includes material for Chapters 1 and 2, with more 
 .
 ├── compose.yaml
 ├── ch01/
-│   └── solution.md
+│   └── solutions.md
 ├── ch02/
 │   ├── figures.ipynb
-│   └── solution.ipynb
+│   └── solutions.ipynb
 └── img/
     └── smallbookcover.gif
 ```
@@ -54,8 +54,8 @@ docker compose down
 
 ## Files
 
-- `ch01/solution.md`: exercise solutions for Chapter 1
-- `ch02/solution.ipynb`: exercise solution notebook for Chapter 2
+- `ch01/solutions.md`: exercise solutions for Chapter 1
+- `ch02/solutions.ipynb`: exercise solutions notebook for Chapter 2
 - `ch02/figures.ipynb`: experiments and figure reproduction for Chapter 2
 - `compose.yaml`: Docker Compose configuration for the notebook environment
 
