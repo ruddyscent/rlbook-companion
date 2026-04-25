@@ -1,206 +1,75 @@
-# Exercise 3.1: Three Example MDP Tasks
+# Exercise 3.1: MDP를 적용할 수 있는 세 가지 예
 
-The Markov decision process (MDP) framework describes an interaction between an
-agent and an environment. At each time step, the agent observes a state, chooses
-an action, receives a reward, and moves to a next state according to the
-environment dynamics. Below are three different example tasks that can be
-modeled this way.
+마르코프 결정 과정(MDP)은 에이전트가 매 시점 상태를 관찰하고 행동을 선택하면, 보상을 받은 뒤 환경에 따라 다음 상태로 이동하는 상호작용을 기술하는 틀이다. 아래에서는 MDP로 모형화할 수 있는 세 가지 예를 살펴본다.
 
-## 1. Warehouse Robot Navigation
+## 1. 창고 로봇 내비게이션
 
-In this task, an autonomous robot moves through a warehouse to pick items from
-shelves and deliver them to a packing station.
+자율 로봇이 창고를 돌아다니며 선반에서 물건을 집어 포장 작업장으로 운반하는 과제이다.
 
-**States:** A state could include the robot's current grid location, its battery
-level, whether it is carrying an item, the location of the requested item, the
-positions of nearby obstacles or workers, and the current queue of pending
-orders.
+- **상태:** 로봇의 격자 위치, 배터리 잔량, 적재 여부, 요청된 물건의 위치, 주변 장애물과 작업자의 위치, 미처리 주문 목록 등.
+- **행동:** 동·서·남·북 이동, 정지, 물건 집기, 물건 내려놓기, 충전소로 이동 등.
+- **보상:** 배달 성공 시 양의 보상, 매 단계마다 효율성 유도를 위한 작은 음의 보상, 충돌이나 위험 접근 시 큰 음의 보상, 배터리 방전 시 음의 보상.
 
-**Actions:** The robot's actions might be to move north, south, east, or west;
-stay still; pick up an item; drop off an item; or go to a charging station.
+상태가 물리적으로 명확하고 행동이 구체적이며 보상이 과제 수행 성능과 직결되므로, 이는 전형적인 MDP 사례에 해당한다.
 
-**Rewards:** The robot could receive a positive reward for successfully
-delivering an item, a small negative reward for each time step to encourage
-efficiency, a larger negative reward for collisions or unsafe proximity to
-workers, and a negative reward for running out of battery before completing the
-task.
+## 2. 개인 맞춤형 치료 계획
 
-This is a fairly standard MDP example because the state can be represented
-physically, the actions are concrete, and the rewards are closely tied to task
-performance.
+에이전트가 시간 경과에 따라 환자에게 적절한 처치를 추천하는 과제이다. 예를 들어 만성 질환 환자의 약물 용량 조절이 이에 해당한다.
 
-## 2. Personalized Medical Treatment Planning
+- **상태:** 최근 검사 결과, 증상, 나이, 체중, 현재 복용 약물, 치료 이력, 부작용, 주요 위험 요인 등. 환자의 생리적 상태를 완전히 관찰할 수는 없으므로 부분 관측에 가깝다.
+- **행동:** 약물 용량 증량·감량, 현재 치료 유지, 약물 변경, 추가 검사 지시, 추적 진료 예약 등.
+- **보상:** 건강 지표 개선, 증상 완화, 부작용 감소, 치료 비용 절감, 입원 회피 등을 반영하며, 해로운 결과에는 큰 음의 보상을 부여한다.
 
-In this task, an agent recommends treatment decisions for a patient over time,
-for example adjusting medication dosage for a chronic condition.
+이 사례는 환경이 생물학적이고 불확실하며 윤리적 제약이 크다는 점에서 창고 로봇 문제와 성격이 다르다. 또한 건강·안전·비용·삶의 질이라는 이질적 목표를 하나의 스칼라 보상으로 환산하는 일 자체가 어렵고 가치 판단을 수반한다.
 
-**States:** A state could include the patient's recent test results, symptoms,
-age, weight, current medications, treatment history, side effects, and relevant
-risk factors. In practice, the true physiological state is only partially
-observed, so the observed state would be an imperfect summary of the patient.
+## 3. 대화형 이야기 생성 도우미
 
-**Actions:** The actions could include increasing a dose, decreasing a dose,
-keeping the treatment unchanged, switching to a different medication, ordering
-an additional test, or scheduling a follow-up visit.
+AI 도우미가 사용자와 함께 이야기를 만들어 나가며, 시점마다 이야기 전개 방향이나 사용자에게 요청할 입력을 결정하는 과제이다.
 
-**Rewards:** Rewards could reflect improved health indicators, symptom
-reduction, fewer side effects, lower treatment cost, and avoidance of dangerous
-events such as hospitalization. A severe negative reward could be assigned to
-harmful outcomes.
+- **상태:** 지금까지 전개된 이야기, 장르, 등장인물, 미해결 플롯, 사용자의 과거 선호, 현재의 감정적 분위기, 사용자의 몰입도 추정치 등. 사용자의 상상이나 선호를 완전히 관찰할 수 없으므로, 이는 객관적 물리 상태가 아니라 모델이 구성한 표현에 가깝다.
+- **행동:** 새로운 사건 추가, 인물 발전, 사용자에게 질문, 갈등 해소, 새로운 배경 도입, 분위기 전환, 이야기 마무리 등.
+- **보상:** 사용자 피드백, 지속적 참여, 이야기의 일관성·참신함·감정적 효과, 사용자 제약의 준수 등을 반영하며, 모순된 전개나 지루한 서술, 원치 않는 분위기 전환에는 음의 보상을 부여할 수 있다.
 
-This example differs from the warehouse robot because the environment is
-biological, uncertain, and ethically constrained. The reward is also not just a
-simple measure of immediate success; it must balance long-term health, safety,
-comfort, and cost.
+이 예는 MDP 틀이 어디까지 적용될 수 있는지를 보여 주는 경계 사례이다. 상태가 객관적이지 않고 보상도 주관적이어서 정의가 까다로우며, 최선의 다음 행동이 대화 전체의 미묘한 맥락에 의존하므로 마르코프 성질이 엄밀히 성립한다고 보기 어렵다. 다만 대화 이력이나 그 임베딩을 상태에 충분히 풍부하게 포함시키면 마르코프 성질을 근사적으로 회복할 수 있고, 이를 근사적 추상화로 받아들이면 MDP로 다룰 수 있다.
 
-## 3. Interactive Storytelling Assistant
+## 요약
 
-In this task, an AI assistant collaboratively writes a story with a human user.
-At each step, it chooses how to continue the story or how to ask the user for
-input.
+세 예시는 MDP 틀의 유연성을 잘 보여 준다. 창고 로봇은 구체적인 물리 제어 문제, 치료 계획은 불확실성 속의 중대한 순차적 의사결정 문제, 이야기 생성 도우미는 상태와 보상의 정의가 까다로운 주관적 상호작용 문제이다.
 
-**States:** A state could include the story so far, the genre, known characters,
-open plot threads, the user's previous preferences, the current emotional tone,
-and an estimate of whether the user seems engaged. Since the full state of the
-user's imagination and preferences is not directly observable, the state would
-be a constructed representation rather than a fully measurable physical state.
+# Exercise 3.2: MDP 틀의 적절성
 
-**Actions:** The assistant's actions might include adding a plot event,
-developing a character, asking the user a question, resolving a conflict,
-introducing a new setting, changing the tone, or ending the story.
+MDP 틀은 매우 폭넓은 추상화로, 다양한 목표 지향적 학습 과제를 표현하는 데 적합하다. 에이전트가 환경과 반복적으로 상호작용하면서 행동을 선택하고 보상을 받아 미래의 결과를 개선해 나가는 구조라면, 그 과제는 대체로 MDP로 기술할 수 있다.
 
-**Rewards:** Rewards could be based on explicit user feedback, continued user
-engagement, coherence of the story, novelty, emotional impact, and whether the
-assistant respects the user's stated constraints. Negative rewards could be
-given for contradictions, boring continuations, unwanted tone shifts, or content
-that violates the user's preferences.
+그러나 MDP 표현이 언제나 자연스럽거나 실용적인 것은 아니다. MDP로 표현하려면 상태가 미래 보상과 다음 상태를 예측하는 데 필요한 모든 정보를 담고 있어야 하며, 그렇지 않으면 마르코프 성질이 성립하지 않는다. 다음과 같은 경우에는 그 한계가 분명해진다.
 
-This example stretches the MDP framework. The "state" is not an objective
-physical configuration, and the reward is difficult to define precisely because
-story quality and user satisfaction are subjective. The Markov property is also
-questionable: the best next action may depend on subtle details from the whole
-conversation, not just a compact state summary. Nevertheless, it can still be
-treated approximately as an MDP if we define the state representation broadly
-enough and accept that the model is an abstraction.
+**부분 관찰 과제.** 센서가 벽 뒤를 보지 못하는 로봇을 떠올려 보자. 최선 행동이 현재 카메라 영상뿐 아니라 몇 초 전 관측에도 의존한다면, 세계 자체는 마르코프적이더라도 로봇이 받는 관찰은 그렇지 않다. 이런 경우에는 부분 관찰 MDP(POMDP)를 사용하거나, 기억 또는 숨은 상태에 대한 믿음(belief)을 포함하도록 상태 표현을 확장해야 한다.
 
-## Summary
+**보상이 불분명하거나 시간에 따라 변하는 과제.** 사람이 기술을 익히는 동안 자신의 목표나 선호, 성공에 대한 정의 자체가 함께 변할 수 있다. 현재의 선호를 상태에 포함시켜 MDP에 담을 수는 있지만, 모델이 부자연스러워지고 다루기 어려워진다.
 
-These three examples show how flexible the MDP framework is. The warehouse robot
-task is a concrete physical-control problem, the medical treatment task is a
-high-stakes sequential decision problem under uncertainty, and the storytelling
-assistant is a subjective human-interaction problem that pushes the limits of
-what counts as a state and a reward.
+**비정상 환경.** 과제 규칙, 가능한 행동, 보상의 의미가 변화하고 있는데 그 변화가 상태에 반영되어 있지 않다면, 표준 MDP 틀만으로는 문제를 직접 표현하기 어렵다.
 
-# Exercise 3.2: Adequacy of the MDP Framework
+따라서 MDP 틀은 모든 목표 지향적 학습 문제를 완벽히 기술하는 모델이라기보다 강력한 추상화 도구로 보는 편이 적절하다. 상태를 충분히 넓게 정의할 수 있다면 많은 문제에 적용할 수 있지만, 부분 관찰성, 숨겨진 과거 의존성, 변화하는 목표, 비정상 동역학이 존재할 때는 분명한 한계가 드러난다.
 
-The MDP framework is very broad and is adequate for representing many
-goal-directed learning tasks. If an agent repeatedly interacts with an
-environment, chooses actions, receives rewards, and tries to improve its future
-outcomes, then the task can often be described as an MDP.
+# Exercise 3.3: 에이전트와 환경의 경계
 
-However, this does not mean that the MDP representation is always simple,
-natural, or practically useful. To represent a task as an MDP, the state must
-contain all information relevant to predicting future rewards and next states.
-If the chosen state representation omits important information from the past,
-then the Markov property fails.
+에이전트와 환경 사이의 경계를 어느 수준에서 설정할지에 대한 유일한 정답은 없다. 경계의 선택은 모델링의 목적, 사용할 수 있는 관찰과 제어, 학습이 이루어져야 하는 수준에 따라 달라진다. 운전 예에서 행동을 가속 페달, 브레이크, 조향 명령으로 정의하는 것은 인간 운전자의 제어장치 및 일반적인 운전 시스템 인터페이스와 부합하므로 자연스럽다. 반면 근육 활성화 수준은 운동 제어를 연구할 때에만 의미가 있고, 타이어 토크 수준은 자율주행 제어기처럼 그러한 수준의 행동이 실제로 주어질 때에만 적절하며, "회사로 운전해서 가기" 같은 고수준 선택은 저수준 제어가 별도로 처리되는 경로 계획 문제에 알맞다.
 
-For example, a partially observed task may not be well represented as an MDP
-using only the current observation. Suppose a robot has sensors that cannot see
-behind a wall. Its best action may depend on something it saw a few moments ago,
-not just on its current camera image. The underlying world may still be Markov,
-but the robot's observation is not. In that case, a partially observable MDP
-(POMDP), or an augmented state including memory or belief over hidden states,
-would be more appropriate.
+따라서 경계 선택은 주로 실용적 기준에 따른다. 행동은 에이전트가 실제로 선택할 수 있는 결정에 대응해야 하고, 상태와 행동 표현은 중요한 정보를 빠뜨리지 않으면서 학습 문제를 가능한 한 단순하게 만들어야 하며, 문제의 시간 척도(time scale)와도 부합해야 한다. 어떤 경계가 언제나 최선이라고 단정할 원리적 근거는 없으며 동일한 시스템을 여러 경계로 기술할 수도 있지만, 잘못된 경계는 문제를 불필요하게 어렵게 만들거나 중요한 인과 구조를 가릴 수 있으므로 선택이 임의적인 것은 아니다. 가장 좋은 경계는 연구 대상 과제에 대해 유용하면서도 다루기 쉬운 추상화를 제공하는 경계이다.
 
-Another difficult case is a task in which the reward itself is unclear or
-changes over time. For instance, a human may learn a skill while also changing
-their goals, preferences, or definition of success. This can still sometimes be
-forced into the MDP framework by expanding the state to include the person's
-current preferences, but the model may become artificial and hard to use.
+# Exercise 3.4: $p(s', r \mid s, a)$에 대한 표
 
-A more extreme exception would be a learning problem without a stable
-environment or stable objective. If the rules of the task, the available
-actions, and the meaning of reward are all changing in ways that are not part of
-the state, then the standard MDP framework is not an adequate direct
-representation.
+재활용 로봇 예제에서 상태는 $\text{high}$와 $\text{low}$ 두 가지이고, 가능한 행동은 $\text{search}$, $\text{wait}$, 그리고 $\text{low}$ 상태에서만 가능한 $\text{recharge}$이다. 매개변수 $\alpha$와 $\beta$는 전이 확률을, $r_{\text{search}}$와 $r_{\text{wait}}$는 각각 탐색과 대기 행동의 보상을 나타내며, 보상 $-3$은 배터리가 완전히 방전되어 로봇을 구조해야 할 때 부여된다.
 
-Thus, the MDP framework is best viewed as a powerful abstraction rather than a
-perfect description of every goal-directed learning problem. It is often
-adequate if we are willing to define the state broadly enough, but clear
-exceptions arise when the agent has partial observability, hidden history
-dependence, changing goals, or nonstationary dynamics that are not captured in
-the state.
+$p(s', r \mid s, a)$를 정리하면 다음과 같다.
 
-# Exercise 3.3: Where to Draw the Agent-Environment Boundary
-
-There is no single fundamentally correct level at which to draw the boundary
-between the agent and the environment. The choice depends on the purpose of the
-model, the available observations and controls, and the level at which learning
-is intended to occur.
-
-In the driving example, defining actions as accelerator, brake, and steering
-commands is often natural. These are the controls available to a human driver,
-and they are also close to the control interface of many driving systems. At
-this level, the agent does not need to model every muscle contraction or every
-tire-road interaction directly. Those details can be treated as part of the
-environment dynamics.
-
-If actions are defined at a lower level, such as muscle activations, then the
-agent's problem becomes much more complex. It must learn not only how to drive,
-but also how to move the body in order to operate the car. This may be useful if
-the scientific question is about motor control, but it is unnecessarily detailed
-if the goal is to study driving behavior.
-
-If actions are defined farther out, such as tire torques, then the model may be
-appropriate for an automated vehicle controller. This level avoids modeling the
-human body and the pedals, but it requires direct control over the vehicle's
-mechanical systems. It is a good boundary only if those are actually the actions
-available to the agent.
-
-At a higher level, actions could be choices such as "drive to the office" or
-"take the highway." This may be appropriate for a route-planning agent, but it
-hides the lower-level control problem. Such a model is useful when the details
-of steering, braking, and acceleration are handled by another controller or are
-irrelevant to the question being asked.
-
-Thus, one boundary is preferred over another mainly for pragmatic reasons:
-
-- The actions should correspond to decisions the agent can actually make.
-- The state and action representation should make the learning problem as
-  simple as possible without omitting important information.
-- The boundary should match the timescale of the problem.
-- The representation should support the predictions and rewards we care about.
-
-There is no fundamental reason that one boundary is always best. In principle,
-many different boundaries can describe the same overall system. However, the
-choice is not completely arbitrary, because a poor boundary can make the problem
-unnecessarily hard, hide relevant causal structure, or define actions that the
-agent cannot really choose. The best boundary is the one that gives a useful and
-tractable abstraction for the task being studied.
-
-# Exercise 3.4: Table for \(p(s', r \mid s, a)\)
-
-For the recycling robot example, the states are \(high\) and \(low\). The
-available actions are \(search\), \(wait\), and, in the \(low\) state,
-\(recharge\). The parameters \(\alpha\) and \(\beta\) are transition
-probabilities, \(r_{search}\) is the reward for searching, \(r_{wait}\) is the
-reward for waiting, and \(-3\) is the reward when the robot must be rescued
-after its battery is depleted.
-
-The table for \(p(s', r \mid s, a)\) is:
-
-| \(s\) | \(a\) | \(s'\) | \(r\) | \(p(s', r \mid s, a)\) |
+| $s$ | $a$ | $s'$ | $r$ | $p(s', r \mid s, a)$ |
 |---|---|---|---:|---:|
-| \(high\) | \(search\) | \(high\) | \(r_{search}\) | \(\alpha\) |
-| \(high\) | \(search\) | \(low\) | \(r_{search}\) | \(1 - \alpha\) |
-| \(high\) | \(wait\) | \(high\) | \(r_{wait}\) | \(1\) |
-| \(low\) | \(search\) | \(low\) | \(r_{search}\) | \(\beta\) |
-| \(low\) | \(search\) | \(high\) | \(-3\) | \(1 - \beta\) |
-| \(low\) | \(wait\) | \(low\) | \(r_{wait}\) | \(1\) |
-| \(low\) | \(recharge\) | \(high\) | \(0\) | \(1\) |
+| $\text{high}$ | $\text{search}$ | $\text{high}$ | $r_{\text{search}}$ | $\alpha$ |
+| $\text{high}$ | $\text{search}$ | $\text{low}$ | $r_{\text{search}}$ | $1 - \alpha$ |
+| $\text{high}$ | $\text{wait}$ | $\text{high}$ | $r_{\text{wait}}$ | $1$ |
+| $\text{low}$ | $\text{search}$ | $\text{low}$ | $r_{\text{search}}$ | $\beta$ |
+| $\text{low}$ | $\text{search}$ | $\text{high}$ | $-3$ | $1 - \beta$ |
+| $\text{low}$ | $\text{wait}$ | $\text{low}$ | $r_{\text{wait}}$ | $1$ |
+| $\text{low}$ | $\text{recharge}$ | $\text{high}$ | $0$ | $1$ |
 
-All other 4-tuples have probability zero. For example, there is no row for
-\((high, wait, low, r)\), because waiting in the high-battery state leaves the
-robot in the high-battery state with probability \(1\). There is also no row for
-\((high, recharge, s', r)\), because \(recharge\) is not an available action in
-the \(high\) state in this example.
+표에 나타나지 않은 4-튜플의 확률은 모두 $0$이다. 예를 들어 $(\text{high}, \text{wait}, \text{low}, r)$에 해당하는 행이 없는 까닭은, 배터리가 $\text{high}$인 상태에서 $\text{wait}$를 선택하면 확률 $1$로 그대로 $\text{high}$에 머물기 때문이다. 또 $(\text{high}, \text{recharge}, s', r)$에 해당하는 행이 없는 까닭은, 이 예제에서 $\text{high}$ 상태에서는 $\text{recharge}$가 가능한 행동이 아니기 때문이다.
