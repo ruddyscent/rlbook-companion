@@ -2,17 +2,18 @@
 
 ![Book cover of Reinforcement Learning](img/smallbookcover.gif)
 
-This repository contains exercise solutions and experiment notebooks created while studying *Reinforcement Learning: An Introduction (2nd Edition)* by Richard S. Sutton and Andrew G. Barto.
+This repository contains study notes, exercise solutions, and experiment notebooks created while studying *Reinforcement Learning: An Introduction (2nd Edition)* by Richard S. Sutton and Andrew G. Barto.
 
 For more information about the book, see the [official book page](http://incompleteideas.net/book/the-book-2nd.html).
 
 ## Contents
 
+- Chapter-based study notes
 - Chapter-based exercise solutions
 - Jupyter notebooks for reproducing examples from the book
 - Code for generating selected figures
 
-At the moment, the repository includes material for Chapters 1 and 2, with more chapters to be added over time.
+At the moment, the repository includes material for Chapters 1 through 3, with more chapters to be added over time.
 
 ## Directory Structure
 
@@ -20,10 +21,15 @@ At the moment, the repository includes material for Chapters 1 and 2, with more 
 .
 ├── compose.yaml
 ├── ch01/
+│   ├── notes.md
 │   └── solutions.md
 ├── ch02/
 │   ├── figures.ipynb
+│   ├── notes.md
 │   └── solutions.ipynb
+├── ch03/
+│   ├── notes.md
+│   └── solutions.md
 └── img/
     └── smallbookcover.gif
 ```
@@ -54,9 +60,13 @@ docker compose down
 
 ## Files
 
+- `ch01/notes.md`: study notes for Chapter 1
 - `ch01/solutions.md`: exercise solutions for Chapter 1
+- `ch02/notes.md`: study notes for Chapter 2
 - `ch02/solutions.ipynb`: exercise solutions notebook for Chapter 2
 - `ch02/figures.ipynb`: experiments and figure reproduction for Chapter 2
+- `ch03/notes.md`: study notes for Chapter 3
+- `ch03/solutions.md`: exercise solutions for Chapter 3
 - `compose.yaml`: Docker Compose configuration for the notebook environment
 
 ## Development Notes
