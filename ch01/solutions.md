@@ -1,99 +1,85 @@
-# Exercise 1.1: Self-Play
+# Exercise 1.1: 자기 자신과의 대국
 
-Sure, let's focus on the aspects relevant to the question without mentioning symmetry.
+강화학습 알고리즘이 틱택토에서 자기 자신을 상대로 학습하는 상황을 생각해 본다. 대칭성에 관한 논의는 다음 문제에서 다루기로 하고, 여기서는 자기 대국이 학습 결과에 미치는 영향에만 초점을 맞춘다.
 
-In the case where the reinforcement learning algorithm plays against itself in tic-tac-toe:
+**탐험과 활용.** 학습 과정 내내 알고리즘은 다양한 행동을 시도하며 탐험을 이어 간다. 자기 대국에서는 상대편 또한 동일하게 탐험을 수행하는 또 하나의 학습자이므로, 양쪽 모두 자신의 경험으로부터 점진적으로 배우게 된다.
 
-1. **Exploration and Exploitation:** The algorithm will continue to explore different actions during its learning process. In self-play, it plays against an opponent that is also exploring different actions. Over time, both sides will learn from their experiences.
+**최적 전략으로의 수렴.** 틱택토는 결정론적이고 상태 공간이 유한하므로, 학습이 충분히 진행되면 알고리즘은 가능한 모든 상태를 거치게 된다. 그리고 그 과정에서 게임의 최적 정책으로 수렴해 간다. 틱택토의 최적 전략은 잘 알려져 있는데, 선공·후공 여부에 따라 "이기거나 최소한 무승부로 만드는" 형태로 정리된다.
 
-2. **Convergence to Optimal Strategy:** Given the deterministic nature of tic-tac-toe and the finite state space, the algorithm will eventually explore all possible states. As it continues to learn, it should converge to the optimal strategy for the game. The optimal strategy in tic-tac-toe is well-defined — either to win or to force a draw, depending on whether the player moves first or second.
+따라서 자기 자신과 대국하는 환경에서도 강화학습 알고리즘은 결국 최적 정책을 학습할 가능성이 높다. 학습된 전략은 승리 가능성을 최대화하거나 적어도 무승부를 강제하는 방향이 된다.
 
-Therefore, in this scenario, the reinforcement learning algorithm would likely learn the optimal policy for tic-tac-toe when playing against itself. The strategy learned should be one that maximizes the chances of winning or forcing a draw.
+# Exercise 1.2: 대칭성
 
-# Exercise 1.2: Symmetries
+틱택토 보드에는 회전과 반사에 의한 대칭이 존재한다. 이러한 구조를 학습 과정에 어떻게 반영할 수 있는지, 그리고 그것이 어떤 이점을 가져오는지를 살펴본다.
 
-**Taking Advantage of Symmetries:**
+## 1. 대칭성을 활용하는 방법
 
-1. **State Representation:** One way to amend the learning process is to use a more compact state representation that takes symmetries into account. Instead of treating symmetrically equivalent positions separately, the algorithm could represent them as the same state. For example, if a certain board configuration is a rotation or reflection of another, they can be treated as equivalent states.
+- **상태 표현:** 학습 알고리즘은 대칭적으로 동등한 위치들을 별개의 상태로 취급하지 않고 동일한 상태로 묶을 수 있다. 예컨대 어떤 보드 배치가 다른 배치의 회전 또는 반사 결과라면, 두 배치는 같은 상태로 표현된다.
+- **가치 공유:** 가치 추정값을 갱신할 때, 대칭으로 동등한 상태들끼리 학습된 값을 공유한다. 한 상태가 유리하다고 평가되었다면, 그와 대칭인 상태들에도 동일한 평가를 적용할 수 있다.
 
-2. **Value Sharing:** When updating the value estimates during the learning process, the algorithm can share the learned values between symmetrically equivalent states. If one state has been evaluated and found to be favorable, the same evaluation can be applied to its symmetrically equivalent counterparts.
+## 2. 학습 과정의 개선 효과
 
-**Improvements to the Learning Process:**
+- **효율성:** 알고리즘이 별도로 탐색하고 학습해야 하는 상태의 수가 줄어들기 때문에 전체 계산 비용이 감소한다.
+- **일반화:** 대칭적인 위치들로부터 학습한다는 것은 곧 동등한 상태 전반에 걸쳐 지식이 일반화된다는 뜻이다. 그 결과 게임에 대한 이해가 한층 견고하고 일반적인 형태가 된다.
 
-1. **Efficiency:** By exploiting symmetries, the learning process becomes more efficient. The algorithm needs to explore and learn from fewer distinct states, reducing the overall computational requirements.
+## 3. 상대가 대칭성을 활용하지 않을 때
 
-2. **Generalization:** Learning from symmetrical positions allows the algorithm to generalize its knowledge across equivalent states. This can lead to a more robust and generalized understanding of the game, as it is learning from a more diverse set of experiences.
+상대가 대칭성을 이용하지 않더라도, 학습자가 이를 활용하는 편은 여전히 유리하다. 효율성과 일반화 측면의 이득이 그대로 유지되기 때문이다. 다만 그 효과의 크기는 상대 전략의 특성과 게임 안에 대칭 구조가 얼마나 자주 등장하는지에 따라 달라진다.
 
-**Considering the Opponent's Strategy:**
+## 4. 대칭으로 동등한 위치는 같은 가치를 가져야 하는가
 
-If the opponent does not take advantage of symmetries, it might still be beneficial for the learning algorithm to do so. By exploiting symmetries, the algorithm gains efficiency and generalization benefits. However, the exact impact depends on the opponent's strategy and the extent to which symmetries are present in the game.
+반드시 그렇지는 않다. 게임의 성질상 대칭 위치들은 비슷한 가치를 갖는 경우가 많지만, 맥락에 따라 최적 수가 달라질 수 있는 상황도 존재한다. 따라서 알고리즘은 이러한 미묘한 차이까지 구분하여, 각 상태의 구체적 맥락에 맞는 가치를 부여하도록 학습해야 한다.
 
-**Symmetrically Equivalent Positions and Values:**
+# Exercise 1.3: 그리디 플레이
 
-It is not necessarily true that symmetrically equivalent positions should have the same value. While symmetrical positions may share similar values due to the nature of the game, there could be cases where the optimal move differs between symmetrically equivalent positions. The algorithm should learn to distinguish between such subtleties and assign appropriate values based on the specific context of the game.
+항상 자신이 가장 좋다고 평가한 수만 두는 그리디 플레이어가 그렇지 않은 플레이어보다 더 잘 학습하는지, 아니면 더 못 학습하는지를 따져 본다.
 
-# Exercise 1.3: Greedy Play
+**더 잘 학습할 가능성.** 그리디 전략은 현재까지의 지식을 바탕으로 즉각적인 가치가 가장 높다고 판단되는 수를 일관되게 선택한다. 학습 알고리즘이 이미 정확한 가치 함수에 충분히 수렴해 있다면, 그리디 플레이어는 매 상황에서 최적의 수를 두며 좋은 성과를 낼 수 있다.
 
-**Learning Better or Worse:**
+**더 못 학습할 위험.** 그러나 순수한 그리디 전략은 학습 과정에서 충분한 탐험을 수행하지 않을 위험이 크다. 새롭고 더 나은 전략을 발견하려면 탐험이 필수적인데, 다양한 수를 시도해 보지 않으면 장기적으로 우수한 전략을 놓치게 되고 결국 차선책에 머무는 플레이를 학습하게 된다.
 
-1. **Possibility of Learning Better:** A greedy strategy might lead the player to consistently choose moves that, based on its current knowledge, are perceived as the best in terms of immediate reward or value. If the learning algorithm has converged to an accurate evaluation function, the greedy player could potentially make optimal moves in each situation, leading to better overall performance.
+그리디 플레이가 안고 있는 문제점은 다음과 같이 정리된다.
 
-2. **Risk of Learning Worse:** However, there's a risk that a purely greedy strategy may not explore enough during the learning process. Exploration is crucial for discovering new, potentially better strategies. If the learning algorithm hasn't explored a diverse set of moves, it might miss out on discovering superior long-term strategies, leading to suboptimal play.
+- **탐험 부족:** 알고리즘이 더 좋은 대안을 발견할 기회를 잃는다. 학습이 아직 정확한 가치 함수에 수렴하지 못한 단계라면 이 문제는 더욱 심각해진다.
+- **국소 최적해:** 현재 지식 기준으로 가장 좋아 보이는 수에 안주한 결과, 전역적으로 더 나은 전략을 놓치고 국소 최적해에 갇힐 수 있다. 수들 사이의 상호작용이 복잡할수록 학습은 더욱 정체된다.
+- **적응력 저하:** 상대 전략의 변화나 예기치 못한 상황에 적응하기 어렵다. 보다 유연한 정책을 학습하려면 당장의 최선책에서 벗어나는 시도, 즉 탐험이 필요하다.
 
-**Problems with Greedy Play:**
+요컨대 그리디 플레이어는 이미 최적 정책에 수렴해 있다면 좋은 성과를 낼 수 있지만, 그렇지 못한 경우에는 차선의 전략에 갇힐 가능성이 크다. 따라서 효과적인 학습을 위해서는 활용과 탐험 사이의 균형이 핵심이 된다.
 
-1. **Lack of Exploration:** Greedy play can lead to a lack of exploration, preventing the algorithm from discovering alternative, potentially better moves. This lack of exploration is particularly problematic when the learning algorithm hasn't fully converged to an accurate evaluation function.
+# Exercise 1.4: 탐험 결과로부터의 학습
 
-2. **Local Optima:** The player might get stuck in local optima, settling for what seems like the best move based on its current knowledge but missing out on globally better strategies. This can hinder the learning process, especially if there are complex interactions and dependencies between moves.
+학습 갱신을 모든 행동에 대해 수행할 것인지, 아니면 활용적(비탐험적) 행동에 대해서만 수행할 것인지에 따라 알고리즘이 수렴하는 확률 분포가 달라진다.
 
-3. **Failure to Adapt:** A purely greedy player might struggle to adapt to changes in the opponent's strategy or to unforeseen circumstances. Learning a more flexible and adaptive policy often requires exploration and a willingness to deviate from the immediate best-rated move.
+**탐험적 행동에서도 학습하는 경우.** 알고리즘은 현재 정책에서 벗어난 탐험적 행동에 대해서도 상태 가치를 갱신한다. 그 결과 활용과 탐험 양쪽의 정보를 모두 반영한 확률 분포로 수렴하게 된다.
 
-In summary, a reinforcement learning player that always plays the move it rates as the best (a greedy player) might learn to play well if it has accurately converged to the optimal strategy. However, there is a risk of getting stuck in suboptimal strategies due to the lack of exploration. Striking a balance between exploitation and exploration is crucial for effective learning and adaptive play.
+**탐험적 행동에서는 학습하지 않는 경우.** 알고리즘은 매 시점 최선이라고 판단한 행동에 대해서만 가치를 갱신한다. 따라서 탐험을 통해 얻을 수 있었던 정보는 가치 추정에 반영되지 못하며, 환경 변화나 상대 전략의 변화에 둔감한 분포로 수렴할 가능성이 크다.
 
-# Exercise 1.4: Learning from Exploration
+이 둘 가운데 학습할 가치가 더 큰 쪽은 탐험적 행동에서도 갱신을 수행하는 분포이다. 그 이유는 두 가지로 요약할 수 있다.
 
-1. **Learning from Exploratory Moves:**
-   - **Concept:** When learning from exploratory moves, the learning algorithm updates its state values even when it takes exploratory actions. Exploratory moves are those that deviate from the current best-known policy to encourage exploration and the discovery of potentially better strategies.
-   - **Effect:** This approach allows the algorithm to refine its understanding of the value of states, including those visited during exploration. Over time, it converges to a set of probabilities that takes into account both exploitative and exploratory aspects.
+- **적응성:** 탐험을 통해 얻은 정보까지 반영하므로, 환경이나 상대 행동이 변할 때 정책을 그에 맞게 조정해 갈 수 있다.
+- **견고성:** 더 다양한 행동과 시나리오를 고려하므로 국소 최적해에 갇힐 위험이 줄고, 더 우수한 전략을 발견할 가능성이 커진다.
 
-2. **Not Learning from Exploratory Moves:**
-   - **Concept:** If learning updates occur only for exploitative moves (non-exploratory moves), the algorithm would update its state values based solely on the moves it considers to be the best at each point in time.
-   - **Effect:** This approach might lead to a more myopic view, as the algorithm would not update its values based on the information gained from exploratory actions. It could potentially converge to a set of probabilities that are less adaptive to changes in the environment or opponent's strategy.
+따라서 더 많은 승리로 이어지는 쪽 또한 탐험적 행동에서도 학습을 수행하는 경우이다. 다양한 대안을 시도하고 그 결과로부터 가치를 갱신함으로써 알고리즘은 최적 전략에 더 잘 다가서며, 성공한 탐험뿐 아니라 실패한 탐험도 학습 재료로 삼아 정책을 점진적으로 정교화한다.
 
-**Which Set of Probabilities Might be Better to Learn?**
+# Exercise 1.5: 그 밖의 개선 방안
 
-The set of probabilities learned from exploratory moves is conceptually better for a few reasons:
+이 절에서는 강화학습 플레이어 자체를 개선하는 방법과, 틱택토 문제를 더 효과적으로 해결하기 위한 방법을 나누어 살펴본다.
 
-1. **Adaptability:** Learning from exploratory moves allows the algorithm to adapt and adjust its strategies based on new information gained through exploration. This adaptability is crucial for dealing with changes in the environment or opponent's behavior.
+## 1. 강화학습 플레이어를 개선하는 방법
 
-2. **Robustness:** The set of probabilities learned from exploration is likely to be more robust as it considers a broader range of actions and scenarios. It is less prone to getting stuck in local optima and can discover superior strategies through exploration.
+- **함수 근사:** 큰 상태 공간에서는 표 기반 방법이 비현실적이므로, 선형 함수 근사나 신경망 같은 함수 근사 기법을 도입한다. 이를 통해 한 번도 본 적 없는 상태에 대해서도 학습 결과를 일반화할 수 있다.
+- **경험 재현:** 과거 경험을 저장해 두었다가 학습 시 무작위로 샘플링해 활용하는 기법으로, 학습을 더 안정적이고 효율적으로 만들어 준다. 함수 근사 기법과 함께 자주 사용된다.
+- **인간 전문가 지식의 활용:** 인간 전문가의 지식이나 기존 전략을 학습 초기에 반영하면, 강화학습이 사전 지식에서 출발해 정책을 점진적으로 다듬어 갈 수 있다.
+- **몬테카를로 트리 탐색(MCTS):** 트리 기반 탐색 알고리즘으로 탐험과 활용을 자연스럽게 결합한다. 다양한 보드 게임에서 큰 성과를 거둔 기법이며, 틱택토 플레이어에도 응용할 수 있다.
+- **동적 학습률:** 환경 변화에 따라 학습률을 적응적으로 조정하면 학습 과정을 개선할 수 있다. Adagrad나 Adam 같은 최적화 기법을 검토할 만하다.
 
-**Resulting in More Wins:**
+## 2. 틱택토 문제 자체를 더 잘 푸는 방법
 
-Learning from exploratory moves is more likely to result in more wins. By exploring alternative actions and updating values based on those explorations, the algorithm is better equipped to discover optimal strategies. It can learn from both successful and unsuccessful exploratory moves, refining its policy over time to increase the chances of winning.
+- **최적 정책의 사전 계산:** 틱택토는 상태 공간이 작기 때문에, 모든 상태에 대해 최적 정책을 미리 계산해 둘 수 있다. 이렇게 하면 게임 중에 학습이 필요하지 않지만, 환경에 대한 완전한 지식을 전제로 한다는 한계가 있다.
+- **게임 고유의 휴리스틱:** 틱택토의 알려진 최적 전략을 바탕으로 도메인 특화 휴리스틱을 도입하면, 학습이 강력한 초기 정책에서 출발할 수 있다.
+- **패턴 인식:** 승리나 패배와 결부되는 보드 패턴을 인식하는 기법을 활용하면, 알고리즘은 그 정보를 바탕으로 더 합리적인 의사결정을 내릴 수 있다.
+- **앙상블 기법:** 여러 강화학습 모델이나 전략을 앙상블 방식으로 결합함으로써, 더 견고하고 신뢰할 만한 틱택토 플레이어를 구성할 수 있다.
 
-# Exercise 1.5: Other Improvements
+## 요약
 
-**Other Ways to Improve the Reinforcement Learning Player:**
-
-1. **Function Approximation:** Instead of tabular methods, which may be impractical for large state spaces, using function approximation techniques like linear function approximation or neural networks can be considered. This allows the player to generalize its learning to unseen states.
-
-2. **Experience Replay:** Implementing experience replay, where past experiences are stored and randomly sampled during learning, can lead to more stable and efficient learning. This technique is often used in combination with function approximation methods.
-
-3. **Learning from Human Experts:** Incorporating knowledge from human experts or pre-existing strategies can bootstrap the learning process. The algorithm can start with some prior knowledge and refine it through reinforcement learning.
-
-4. **Monte Carlo Tree Search (MCTS):** MCTS is a tree-based search algorithm that combines tree exploration and exploitation. It has been successful in various board games and might be adapted to improve the tic-tac-toe player.
-
-5. **Dynamic Learning Rates:** Using adaptive learning rates that change based on the observed dynamics of the environment can enhance the learning process. Techniques like the Adagrad or Adam optimizers can be explored.
-
-**Better Ways to Solve the Tic-Tac-Toe Problem:**
-
-1. **Optimal Policy Pre-computation:** Since tic-tac-toe has a small state space, it's possible to precompute the optimal policy for every possible state. This eliminates the need for learning during gameplay. However, it assumes perfect knowledge of the environment.
-
-2. **Game-Specific Heuristics:** Incorporating domain-specific heuristics based on known optimal strategies in tic-tac-toe can guide the learning process. These heuristics can provide a strong initial policy to build upon.
-
-3. **Pattern Recognition:** Utilizing pattern recognition techniques to identify recurring board patterns associated with winning or losing can enhance the learning process. The algorithm can then use this knowledge to make more informed decisions.
-
-4. **Ensemble Methods:** Combining multiple reinforcement learning models or strategies using ensemble methods can lead to a more robust and reliable tic-tac-toe player.
-
-It's important to note that the choice of improvement strategies depends on the specific characteristics of the problem and the desired trade-offs between computational complexity and performance. Experimentation and tuning are often necessary to determine the most effective approach.
+개선 전략의 선택은 문제의 특성과, 계산 비용 대비 성능 사이의 균형 등 구체적인 요구사항에 따라 달라진다. 따라서 가장 효과적인 방법을 찾기 위해서는 다양한 실험과 튜닝이 함께 이루어져야 한다.
