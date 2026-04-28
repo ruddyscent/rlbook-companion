@@ -79,11 +79,15 @@ pre-commit install
 
 ## License
 
-This repository is licensed under the MIT License for original code, original solution write-ups, and other original material created for this project.
+This repository uses separate licenses for different kinds of material. See [LICENSE](LICENSE) for the full notice and [LICENSES](LICENSES) for the license texts.
 
-Exercise statements from the book, the book cover image, and any other third-party material are not covered by the MIT License and remain the property of their respective copyright holders.
+- Original code, notebooks, scripts, and configuration files are licensed under the [MIT License](LICENSES/MIT.txt).
+- Original study notes, explanations, and solution write-ups are licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](LICENSES/CC-BY-NC-SA-4.0.txt) (CC BY-NC-SA 4.0).
+- Exercise statements from the book, the book cover image, figures from the book, and any other third-party material are not covered by the licenses above and remain the property of their respective copyright holders.
 
 This project references and studies material from *Reinforcement Learning: An Introduction (2nd Edition)* by Richard S. Sutton and Andrew G. Barto. Problem statements are identified by exercise number and are not reproduced here except, where necessary, in limited and attributed form.
+
+The original book is distributed separately by its authors and publisher. This repository does not grant permission to reproduce, redistribute, or create derivative works from the book or other third-party material.
 
 ## Notes
 
