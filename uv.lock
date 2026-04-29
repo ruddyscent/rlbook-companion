@@ -2397,6 +2397,9 @@ wheels = [
 name = "rlbook-companion"
 version = "0.1.0"
 source = { editable = "." }
+dependencies = [
+    { name = "nbformat" },
+]
 
 [package.optional-dependencies]
 dev = [
@@ -2422,6 +2425,7 @@ requires-dist = [
     { name = "jupyterlab", marker = "extra == 'notebooks'", specifier = ">=4.0" },
     { name = "matplotlib", marker = "extra == 'notebooks'", specifier = ">=3.8" },
     { name = "nbdev", marker = "extra == 'dev'", specifier = "==2.2.10" },
+    { name = "nbformat", specifier = ">=5.10.4" },
     { name = "numpy", marker = "extra == 'notebooks'", specifier = ">=1.26" },
     { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=3.0" },
     { name = "seaborn", marker = "extra == 'notebooks'", specifier = ">=0.13" },
