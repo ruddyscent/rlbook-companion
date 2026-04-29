@@ -73,7 +73,11 @@ docker compose down
 
 This repository includes a pre-commit configuration and currently uses the `nbdev_clean` hook. If you edit notebooks, it is a good idea to install the hook before committing.
 
+After cloning the repository, run this setup once:
+
 ```bash
+uv tool install nbdev pre-commit
+nbdev_install_hooks
 pre-commit install
 ```
 

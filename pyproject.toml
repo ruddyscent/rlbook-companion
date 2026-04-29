@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rlbook-companion"
+version = "0.1.0"
+description = "Study notes, exercise solutions, and notebooks for Reinforcement Learning: An Introduction."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+notebooks = [
+    "jupyterlab>=4.0",
+    "matplotlib>=3.8",
+    "numpy>=1.26",
+    "seaborn>=0.13",
+]
+dev = [
+    "nbdev==2.2.10",
+    "pre-commit>=3.0",
+]
+
+[tool.setuptools]
+py-modules = []
+
+[dependency-groups]
+dev = [
+    "nbdev>=2.2.10",
+    "pre-commit>=4.6.0",
+]
+
