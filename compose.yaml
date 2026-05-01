@@ -1,6 +1,6 @@
 services:
   rlbook:
-    image: quay.io/jupyter/datascience-notebook
+    image: quay.io/jupyter/datascience-notebook:python-3.13.13
     volumes:
       - ..:/home/jovyan
     ports:
