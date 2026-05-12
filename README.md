@@ -38,7 +38,20 @@ At the moment, the repository includes material for Chapters 1 through 3, with m
 
 This repository is set up to run with `docker compose` using the `quay.io/jupyter/datascience-notebook` image.
 
-### 1. Start Jupyter Lab
+### 1. Configure environment variables
+
+Copy the example environment file and adjust the values if needed:
+
+```bash
+cp env.example .env
+```
+
+Docker Compose automatically reads `.env` from the repository root. The available variables are:
+
+- `JUPYTER_PORT`: host port for Jupyter Lab, defaulting to `8888`
+- `JUPYTER_TOKEN`: access token for Jupyter Lab
+
+### 2. Start Jupyter Lab
 
 From the repository root, start the notebook container:
 
@@ -67,7 +80,12 @@ docker compose down
 - `ch02/figures.ipynb`: experiments and figure reproduction for Chapter 2
 - `ch03/notes.md`: study notes for Chapter 3
 - `ch03/solutions.md`: exercise solutions for Chapter 3
+- `ch04/notes.md`: study notes for Chapter 4
+- `ch04/solutions.ipynb`: exercise solutions notebook for Chapter 4
+- `ch04/figures.ipynb`: experiments and figure reproduction for Chapter 4
 - `compose.yaml`: Docker Compose configuration for the notebook environment
+- `env.example`: example environment variables for Docker Compose
+- `pyproject.toml`: Python project metadata and development dependencies
 
 ## Development Notes
 
