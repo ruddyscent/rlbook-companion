@@ -410,3 +410,6 @@ zsdoc/data
 .jupyter/
 .mypy_cache/
 .ruff_cache/
+
+# Claude Code
+.claude/
