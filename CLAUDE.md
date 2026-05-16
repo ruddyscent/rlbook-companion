@@ -60,6 +60,15 @@ chXX/
 | Markov decision process (MDP) | 마르코프 결정 과정 |
 | dynamic programming | 동적 계획법 |
 | Monte Carlo | 몬테카를로 |
+| trial-and-error search | 시행착오 탐색 |
+| delayed reward | 지연된 보상 |
+| reward signal | 보상 신호 |
+| planning | 계획 |
+| optimal control | 최적 제어 |
+| policy iteration | 정책 반복 |
+| actor-critic | 액터-크리틱 |
+| k-armed bandit | k-팔 밴딧 |
+| curse of dimensionality | 차원의 저주 |
 
 ## 개발 환경
 
