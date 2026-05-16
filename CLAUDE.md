@@ -13,7 +13,7 @@ chXX/
 └── figures.ipynb   # 책의 그림을 재현하는 실험 노트북
 ```
 
-챕터마다 구성이 다를 수 있다. 코드가 없는 챕터(ch01, ch03 등)는 `notes.md`와 `solutions.md`를 하나의 `notes.ipynb`로 합친다. 코드가 있는 챕터(ch02, ch04 등)는 `notes.ipynb`(노트 + 간단한 연습문제)와 `solutions.ipynb`(코드 연습문제), `figures.ipynb`(그림 재현)으로 분리할 수 있다.
+챕터마다 구성이 다를 수 있다. 코드가 없는 챕터(ch01, ch03 등)는 `notes.md`와 `solutions.md`를 하나의 `notes.ipynb`로 합친다. 코드가 있는 챕터(ch02, ch04 등)는 `notes.ipynb`(노트 + 간단한 연습문제)와 `solutions.ipynb`(코드 연습문제), `figures.ipynb`(그림 재현)으로 분리할 수 있다. ch02는 노트, 연습문제 풀이, 그림 재현을 모두 `notes.ipynb` 하나로 통합한다.
 
 ## notes.ipynb 구성 규칙
 
@@ -69,6 +69,11 @@ chXX/
 | actor-critic | 액터-크리틱 |
 | k-armed bandit | k-팔 밴딧 |
 | curse of dimensionality | 차원의 저주 |
+| gradient bandit | 선호도 밴딧 |
+| exponential recency-weighted average | 지수 감쇠 가중 평균 |
+| preference | 선호도 |
+| baseline | 보상 기준치 |
+| uncertainty bonus | 탐험 유인 |
 
 ## 개발 환경
 
