@@ -14,7 +14,7 @@ dependencies = [
 
 [project.optional-dependencies]
 notebooks = [
-    "jupyterlab>=4.5.9",
+    "jupyterlab>=4.5.10",
     "matplotlib>=3.8",
     "numpy>=1.26",
     "seaborn>=0.13",
