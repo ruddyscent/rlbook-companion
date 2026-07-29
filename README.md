@@ -99,6 +99,10 @@ nbdev_install_hooks
 pre-commit install
 ```
 
+## Support
+
+If these study notes and notebooks are helpful, you can support their continued development through [GitHub Sponsors](https://github.com/sponsors/ruddyscent) or [PayPal.me](https://paypal.me/kyungwonchun).
+
 ## License
 
 This repository uses separate licenses for different kinds of material. See [LICENSE](LICENSE) for the full notice and [LICENSES](LICENSES) for the license texts.
